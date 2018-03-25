@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style>
+	/* a:link,a:visited,a:hover,a:active {color:none;} */
+ .test{
+   	margin:0;
+   	padding:0;
+   	list-style:none;
+   	border:1px solid #000;
+   	word-spacing: -5px;
+   }  
+.test li{
+	display: inline-block;
+	height:50px;
+	background:#fff;
+	text-align:center;
+	line-height: 50px;
+	letter-spacing: 3px;
+	width: 80px;
+	cursor: pointer;
+	background: #000;
+}  
+.test li i{  
+    border:2px solid #666;  
+    border-width:2px 0px 0px 2px;  
+    display:inline-block;  
+    height:4px; 
+    width:4px;   
+    transform-origin:center center;  
+    transform:rotate(45deg);  
+    transition:all .5s ease-in .1s;     
+}  
+.test li:hover i{  
+    transform:rotate(-135deg);  
+    transition:all .5s ease-in .1s;  
+}  
+	</style>
+</head>
+<body style="padding: 50px;">
+	
+	<ul class="test">  
+    <li>66 <i></i></li>  
+    <li>66 <i></i></li>  
+    <li>66 <i></i></li>  
+    <li>66 <i></i></li>  
+    <li>66 <i></i></li>  
+    <li>66 <i></i></li>  
+</ul>  
+	
+</body>
+</html>

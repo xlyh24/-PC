@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        li{
+            list-style: none;
+        }
+        body{
+            padding: 200px;
+        }
+        .carousel{
+	width: 590px;
+	height: 469px;
+	overflow: hidden;
+	position: relative;
+}
+.carousel .image-box{
+	width:3540px;
+   -webkit-transform:translateX(-590px);/*尽可能做webkit内核的兼容*/
+    transform: translateX(-590px); 
+}
+.carousel .image-box li{
+	float: left;
+}
+.carousel .image-box li a{		
+	display: block;
+}
+.carousel .image-box li a img{
+	display: block;
+}
+/* 左右滑动 */
+.carousel span{	
+	text-align: center;
+	cursor: pointer; 
+	display: none; 
+	line-height: 50px;
+	text-align: center;
+	 font-size: 32px;
+	font-weight: bold; 
+	width: 40px;
+	height: 50px; 
+	position: absolute;
+	top:50%;
+	margin-top: -25px;
+	z-index: 2;
+	background-color: RGBA(0,0,0,.3); 
+	color: #fff;
+	-webkit-tap-highlight-color:transparent;
+	-ms-user-select:none;/*IE10*/
+	-webkit-user-select:none;/*webkit浏览器*/
+	user-select:none;
+}
+.carousel:hover span{
+	display: block;
+}
+.carousel span:hover{
+	background-color: RGBA(0,0,0,.7); 
+}
+.carousel span:first-of-type{   
+	left:0px;
+}
+.carousel span:last-of-type{
+	right:0px;	
+}
+/* 点盒子 */
+.carousel .point-box{
+    width: 120px;
+    height: 30px;
+    position: absolute;
+    bottom: 50px;
+    left:50%;
+    margin-left:-60px;
+}
+.carousel .point-box li{
+	float: left;
+    width: 20px;
+    height: 30px;
+    padding: 5px 0 0 5px;
+    display: inline-block;
+}
+.carousel .point-box li a{
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 7px;
+     border:2px solid #F0F8FF;
+}
+.carousel .point-box li a.now{
+  background: #e92322;
+}
+    </style>
+</head>
+<body>
+        <div class="carousel">       
+                <ul class="image-box">
+                  <li><a href=""><img src="images/slider4.jpg" alt=""></a></li>
+                  <li><a href=""><img src="images/slider1.jpg" alt=""></a></li>
+                  <li><a href=""><img src="images/slider2.jpg" alt=""></a></li>
+                  <li><a href=""><img src="images/slider3.jpg" alt=""></a></li>
+                  <li><a href=""><img src="images/slider4.jpg" alt=""></a></li>
+                   <li><a href=""><img src="images/slider1.jpg" alt=""></a></li>
+                </ul>
+                <span class="prev">&lt;</span><span class="next">&gt;</span>
+                  <ul class="point-box">
+                  <li><a href="javascript: void(0)" class="now"></a></li>
+                  <li><a href="javascript: void(0)"></a></li>
+                  <li><a href="javascript: void(0)"></a></li>
+                  <li><a href="javascript: void(0)"></a></li>
+                </ul>                   
+              </div>
+    <script>
+         var carousel=function(){   
+      var banner=document.querySelector('.carousel');
+      var imageBox=banner.getElementsByClassName('image-box')[0];
+      var pointBox=banner.getElementsByClassName('point-box')[0];
+      var oli=pointBox.getElementsByTagName('a');
+      var prev=banner.getElementsByClassName('prev')[0];
+      var next=banner.getElementsByClassName('next')[0];
+      var width=banner.offsetWidth;   
+      var timer=null;
+      var index=1;
+              
+//    //添加过渡
+//     var addTransition = function () {
+//         imageBox.style.webkitTransition = "all .5s";/*兼容*/
+//         imageBox.style.mozTransition = "all .5s";/*兼容*/
+//         imageBox.style.transition = "all .5s";
+//     };
+//     // 删除过渡
+//     var removeTransition = function () {
+//         imageBox.style.webkitTransition = "none";/*兼容*/
+//         imageBox.style.mozkitTransition = "none";/*兼容*/
+//         imageBox.style.transition = "none";
+//     };
+//     // 改变位置
+//     var setTranslateX = function(translateX){
+
+//         imageBox.style.webkitTransform = "translateX("+translateX+"px)";
+//         imageBox.style.mozkitTransform = "translateX("+translateX+"px)";
+//         imageBox.style.transform = "translateX("+translateX+"px)";
+//     };
+           
+    //   封装简单动画
+
+    // function animation(target,obj){    
+    //            var timer;
+    //           var speed = (target-obj.offsetLeft)/50;
+    //            speed=speed>0?Math.ceil(speed):Math.floor(speed);
+    //              clearInterval(obj.timer);
+    //           timer = setInterval(function(){
+    //                if(obj.offsetLeft>=target){
+    //                   clearInterval(obj.timer)
+    //                }else{
+    //                	 obj.style.left = obj.offsetLeft+speed+'px';
+    //                }
+    //            }, 10)            
+    //        }
+    function animate(ele,target){
+                clearInterval(ele.timer);
+                var speed = target>ele.offsetLeft?10:-10;
+                ele.timer = setInterval(function () {
+                    var val = target - ele.offsetLeft;
+                    ele.style.left = ele.offsetLeft + speed + "px";
+                    if(Math.abs(val)<Math.abs(speed)){
+                        ele.style.left = target + "px";
+                        clearInterval(ele.timer);
+                    }
+                },10)
+            }
+
+
+       clearInterval(timer)
+
+   // 设置向右自然滚动 
+   function time(){
+
+    timer = setInterval(function(){
+        index++;
+        // 过渡      
+        // addTransition();        
+        // // 改变位移   
+        // setTranslateX(-index*width); 
+        animation(-index*width,banner)
+        setPoint();    
+       }, 4000);
+    }
+  
+   time();
+     //绑定过渡结束事件   设置无缝滚动和无缝滑动
+   banner.addEventListener('transitionend', function(){    
+         //无缝滚动            
+          if(index>=5){                        
+             index=1;                                  
+        // 清除过渡    
+         removeTransition();     
+          //定位                
+         setTranslateX(-index*width);          
+          }
+          //无缝滑动
+          else if(index<=0){         
+             index=4;            
+            removeTransition();
+            setTranslateX(-index*width);    
+          }  
+         setPoint();      
+   });
+    
+     // 点移动
+     function setPoint(){    
+      for (var i = 0; i < oli.length; i++) {   	   
+      	//  	 oli[i].className='';
+          //  oli[index-1].className="now";
+          oli[i].classList.remove('now');
+          oli[index-1].classList.add('now');
+      }
+    };
+    // 清除定时器
+   banner.onmouseover=function(){
+   	   clearInterval(timer);
+   }
+  // 开启定时器
+   banner.onmouseout=function(){
+       time();   
+   }   
+   
+    //向左滚动事件
+    prev.onclick=function(){   
+      setPoint();
+      index--;        	    	
+    // imageBox.style.left = -index*width+'px';
+    imageBox.style.transition = 'all 0.5s';
+    imageBox.style.transform ='translateX('+(-index*width)+'px)';
+      
+      // 添加过渡结束事件
+       clearInterval(timer);  
+      banner.addEventListener('transitionend', function(){
+             if(index<=0){
+               index=4;  
+             }
+           removeTransition();                  
+           setTranslateX(-index*width);          
+       },false);
+      
+    }   
+
+  // 向右滚动
+    next.onclick=function(){  
+       setPoint();
+    	index++;     
+    imageBox.style.transition = 'all 0.5s';
+    imageBox.style.transform='translateX('+(-index*width)+'px)';
+     // 添加过渡结束事件
+     clearInterval(timer);
+      banner.addEventListener('transitionend', function(){
+           if(index>=5){
+            index=1;                     
+          }
+       });            	
+    }
+  
+ // 获取当前索引值
+     for (var i = 0; i < oli.length; i++) {         
+            oli[i].index = i
+     	oli[i].onmousemove=function(){
+     		   for (var i = 0; i < oli.length; i++) {
+     		     	// oli[i].className='';
+                      // oli[this.index].className='now';
+                      oli[i].classList.remove('now');
+                    oli[this.index].classList.add('now'); 
+     		     }   
+          imageBox.style.transition = 'all 0.5s';
+          imageBox.style.transform = 'translateX('+(-[this.index+1]*width)+'px)';                   
+          index=[this.index+1];
+     	}
+     }
+  }  
+
+  carousel()
+        
+        </script>
+</body>
+</html>

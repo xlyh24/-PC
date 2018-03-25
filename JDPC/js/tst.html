@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.bottom{
+  	width:180px;
+ 	margin: 40px auto;
+  }
+  .bottom ul{
+  	padding-left: 10px;
+  	display: inline-block;
+  }
+.bottom ul li{
+	display: inline-block;
+    font-size: 15px;
+    padding-right:10px;  
+}
+.bottom ul li:nth-of-type(2){
+	padding-left:10px;
+
+}
+.bottom span{
+	display: inline-block;
+	padding-left: 38px;
+	font-size: 14px;
+}
+.bottom ul li a{
+	display: inline-block;
+	line-height: 24px;
+}
+.bottom ul li.show{
+   border-bottom: 2px solid #db192b;
+}
+/* 促销和公告 */
+  .bottom div{
+  display: none;
+}
+.bottom .promotion{
+  padding-left: 10px;
+  padding-top: 20px;
+  line-height: 30px;
+  display: block;
+}
+
+.bottom p{
+	/* 设置文本省略号，必须设置宽高 */
+   height: 30px;
+   width: 170px; 
+   text-overflow: ellipsis;
+    overflow: hidden;
+   white-space: nowrap;
+}
+	</style>
+</head>
+<body>
+
+	 <div class="bottom" >
+                      <ul>
+                        <li class="show"><a href="javascript: void(0)" >促销</a></li><i>|</i>
+                        <li><a href="javascript: void(0)">公告</a></li>
+                        <!-- <li><a href="">更多</a></li> -->
+                      </ul>
+               
+
+                      <div class="promotion">
+                        数码爆品低至5折！
+                        居家开年盛典199减100
+                        爆款电脑直降2018
+                        每日享折扣 京东品质游
+                        </div>
+                       <div>
+                        大家电订单超期自动取消公告
+                        关于召回普利司通（天津）轮胎有限公司2个规格乘用车轮胎的公告
+                        京东物流推出配送员统一外呼电话"95056”
+                        天府大件运营中心开仓公告
+                        </div> 
+
+                  </div>
+	<script type="text/javascript">
+		
+
+		 var Tab=document.getElementsByClassName('bottom')[0];
+		  var oul=Tab.getElementsByTagName('ul')[0];
+            var oli=oul.getElementsByTagName('li');
+            var odiv=Tab.getElementsByTagName('div');
+
+            for (var i = 0; i < oli.length; i++) {
+          	
+          	    oli[i].index=i;
+          	oli[i].onmousemove=function(){
+                     
+          		for (var i = 0; i < oli.length; i++) {
+          			oli[i].className='';
+          			odiv[i].className='';
+          			
+          		}
+          		this.className='show';
+          			odiv[this.index].className='promotion';
+          	}
+          }
+	</script>
+</body>
+</html>

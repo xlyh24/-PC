@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>JS封装的选项卡TAB代码</title>
+<style type="text/css">
+*{ padding:0; margin:0;}
+.block{ display:block;}
+.none{ display:none;}
+#wrap,#wraps{ width:500px; height:230px; overflow:hidden; margin:50px auto;}
+#diya,#diyas{ list-style:none;}
+#diya li,#diyas li{ width:66px; height:28px; border:1px solid #09C; text-align:center; line-height:28px; float:left; cursor:pointer; margin-right:3px;}
+#diyas li:hover{ background:#CCC;}
+#diya li.on,#diyas li.on{ background:#9C3;}
+#wrap div,#wraps div{ width:498px; height:198px; border:1px solid #000;}
+</style>
+</head>
+<body>
+<div id="wrap">
+<ul id="diya">
+<li class="on">第一项</li>
+<li>第二项</li>
+<li>第三项</li>
+</ul>
+<br clear="all" />
+<div class="block">第一部分</div>
+<div class="none">第二部分</div>
+<div class="none">第三部分</div>
+</div>
+
+
+
+
+<div id="wraps">
+<ul id="diyas">
+<li class="on">第一项</li>
+<li>第二项</li>
+<li>第三项</li>
+</ul>
+<br clear="all" />
+<div class="block">第一部分</div>
+<div class="none">第二部分</div>
+<div class="none">第三部分</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+tab("wrap","diya","mouseover")
+tab("wraps","diyas")
+function tab(wrap,navul,eve){
+//tab效果封装，目前只有两种变换方式，一种为点击事件click（也是默认事件），另外一种为鼠标移过事件mouseover
+var divs=document.getElementById(wrap).getElementsByTagName("div");
+var lis=document.getElementById(navul).getElementsByTagName("li");
+for(var i=0;i<lis.length;i++){
+lis[i].indx=i;
+if(eve=="click" || eve==null){
+lis[i].onclick=function(){
+  for(i=0;i<lis.length;i++){
+     
+    lis[i].className=""; 
+    this.className="on";
+    divs[i].style.display="none"   
+    divs[this.indx].style.display="block";
+    }
+  }
+}else if(eve=="mouseover"){
+  lis[i].onmouseover=function(){
+    for(i=0;i<lis.length;i++){
+    lis[i].className="";
+    divs[i].className="none";
+     
+    this.className="on";
+    divs[this.indx].className="block";
+      }
+    }
+  }
+}
+}
+</script>
